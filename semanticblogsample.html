@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+ <title>This is krishnas website</title>
+</head>
+<body>
+    <!-- Header -->
+        <div class="ui menu">
+                <div class="active item">
+                    <i class="large home icon"></i>
+                    <a href="">Home</a>
+                </div>
+                <div class="item">
+                    <i class="large user icon"></i>
+                    <a href="#bottom">About</a></div>
+                <div class="item">
+                    <i class="large call square icon"></i>
+                    <a href="#bottom">Contact</a></div>
+                <div class="right  menu">
+                        <div class="ui transparent left icon input">
+                        <input type="text" placeholder="search">
+                        <i class="search icon"></i>
+                        </div>
+                <div class="item">
+                    <i class="large power icon"></i>
+                    <a href="">logout</a></div>
+                <div class="item">
+                    <i class="large add user icon"></i>
+                    <a href="">Register</a>
+                </div>
+                </div>
+            </div>
+        <!-- body -->
+
+    <div class="ui container">
+        <h1 class="ui red header">
+            Problem with 'This' keyword
+        </h1>
+        <p>
+                Because React uses the this keyword to reference the component context inside each class, it also inherits this confusion. You’re probably used to seeing code like this inside React components
+        </p>
+        <div class="ui secondary raised segment">   
+            <pre>
+            this.setState({ loading: true });
+            
+            fetch('/').then(function loaded() {
+                this.setState({ loading: false });
+            });
+            </pre>
+        </div>
+        <p>
+            This code results in a TypeError because this.setState is not a function. This is because when the callback to the promise is called, the internal context of the function is changed and this references the wrong object. Let’s take a look at the ways in which we can prevent this from happening.
+        </p>
+        <h1 class="ui red header">
+            The Options
+        </h1>
+        <p>
+                Some of these alternatives are old techniques that have been used in Javascript for years, others are specific to React and some won’t even work in browsers yet, but we’ll explore them all anyway.
+        </p>
+        <h3 class="ui red header">
+                1. Alias This
+        </h3>
+        <p>
+                This is approach has been around for a lot longer than React and it involves creating a second reference to the this at the top level of the component’s scope.
+        </p>
+        <div class="ui secondary raised segment">
+            <pre>
+            If you want to write original react jsx code use : //
+            var component = this;
+            component.setState({ loading: true });
+            
+            fetch('/').then(function loaded() {
+                component.setState({ loading: false });
+            });
+            </pre>
+        </div>
+        <p>
+                This approach is lightweight and very easy to understand for beginners (although it may not be clear why you did it). It gives you a visual guarantee that you’ll be referring to the correct context.
+                
+                It feels a bit like you’re working against the semantics of the language itself, but it’s a simple solution and it works well.
+        </p>
+        <h3 class="ui red header">
+                2. Bind This
+        </h3>
+        <p>
+                The next option we have involves injecting the correct context into our callback function at runtime.
+        </p>
+        <div class="ui raised secondary segment">
+            <pre>
+            this.setState({ loading: true });
+            
+            fetch('/').then(function loaded() {
+                this.setState({ loading: false });
+            }.bind(this));
+            </pre>
+        </div>
+        <p>
+                All functions in Javascript have a bind method, which allow you to specify the value for this. Once a function has been “bound” the context can’t be overriden, meaning that we have a guarantee that this will refer to the correct thing.
+                
+                This approach is a little bit harder to understand for other programmers and if you’re working with deeply nested, asynchronous code, then you’ll find yourself having to remember to bind each function as you go.
+        </p>
+        <h3 class="ui red header">
+                3. React Component Methods
+        </h3>
+        <p>
+                React allows you to define arbitrary methods on your component classes and these methods are automatically bound with the correct context for this when you create your components with React.createClass. This allows you move your callback code out onto your component.
+                
+           <pre>React.createClass({</pre>
+        </p>
+        <div class="ui secondary raised segment">
+            <pre>
+            React.createClass({
+                componentWillMount: function() {
+                    this.setState({ loading: true });
+                
+                    fetch('/').then(this.loaded);
+                },
+                loaded: function loaded() {
+                    this.setState({ loading: false });
+                }
+                });
+            </pre>
+        </div>
+        <p>
+                This can be a very elegant solution if you aren’t doing much work in your component (you probably shouldn’t be, either!). It allows you to use named functions, flatten your code and forget about having the correct context. In fact, if you try to .bind(this) onto a component method, then React will warn you that you’re doing unnecessary work.
+        </p>
+        <div class="ui basic green segment">
+                bind(): You are binding a component method to the component. React does this for you automatically in a high-performance way, so you can safely remove this call.
+        </div>
+        <p>
+            It’s important to remember that this autobinding doesn’t apply to ES2015 classes. If you use them to declare your components, then you’ll have to use one of the other alternatives.
+        </p>
+        <h3 class="ui red header">
+                4. ES2015 Arrows
+        </h3>
+        <p>
+                The ES2015 specification introduces the arrow function syntax for writing function expressions. As well as being terser than regular function expressions, they can also have implicit return and most importantly, they always use the value of this from the enclosing scope.
+        </p>
+        <div class="ui secondary raised segment">
+            <pre>
+            this.setState({ loading: true });
+            
+            fetch('/').then(() => {
+                this.setState({ loading: false });
+            });
+            </pre>
+        </div>
+        <p>if you wanna study further more please follow this link: <a href="https://www.sitepoint.com/bind-javascripts-this-keyword-react/">Click here to open link!!</a></p>
+        <br>
+        <br>
+        <br>
+    </div>
+<a name="bottom">
+<div class="ui inverted footer segment">
+       
+<div class="ui items">
+    <div class="item">
+            <div class="ui small image">
+                <img src='./MyImage.png'>
+            </div>
+            <div class="middle aligned content">
+                <div class="right floated content">
+                        Written by <a href="mailto:kkrajus999@example.com">Krishnamraju Kammili</a>.<br> 
+                        Visit Me at:<br>
+                        2250 marsh lane, apt#4220<br>
+                        Carrollton Texas 75006.<br>
+                        USA<br>
+                </div>
+            </div>
+    </div>     
+</div>
+<!-- unnecessary -->
+ <!-- <div class="ui right floated content">
+            <img class='medium image' src="./MyImage.png" alt="">
+        </div>
+        <div class="ui right floated content">
+            Written by <a href="mailto:kkrajus999@example.com">Krishnamraju Kammili</a>.<br> 
+            Visit Me at:<br>
+            2250 marsh lane, apt#4220<br>
+            Carrollton Texas 75006.<br>
+            USA<br>
+        </div> -->
+
+    
+    <!-- <div class="ui black inverted  footer segment">
+        <div class="ui center aligned container">
+            <div class="ui stackable inverted grid">
+                <div class="eight wide column">
+                    <img class='ui small circular image' src="./MyImage.png" alt="">
+                </div>
+                <div class="eight wide column">
+                    <div class="right floated content">
+                    <div class="middle aligned content">
+                        Written by <a href="mailto:kkrajus999@example.com">Krishnamraju Kammili</a>.<br> 
+                        Visit Me at:<br>
+                        2250 marsh lane, apt#4220<br>
+                        Carrollton Texas 75006.<br>
+                        USA<br>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+
+<!-- <div class="ui two column stackable center aligned grid segment">
+        <div class="column">
+          <div class="ui button">A</div>
+        </div>
+        <div class="ui vertical divider">or</div>
+        <div class="column">
+          <div class="teal ui button">B</div>
+        </div> -->
+
+
+</a>       
+</body>
+</html>
